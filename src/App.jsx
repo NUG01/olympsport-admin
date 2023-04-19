@@ -3,8 +3,8 @@ import { Route, Routes } from "react-router-dom";
 
 //pages
 import DashboardLayout from "./layouts/DashboardLayout";
-import HomePage from "./pages/HomePage";
 import MainPage from "./pages/MainPage";
+import LoginPage from "./pages/LoginPage";
 
 import "./App.css";
 
@@ -16,7 +16,7 @@ function App() {
     <Routes>
       <Route
         path=""
-        element={<HomePage data={authStatus} dataIsFetched={rendered} />}
+        element={<LoginPage data={authStatus} dataIsFetched={rendered} />}
       ></Route>
       <Route
         path="/dashboard"

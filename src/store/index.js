@@ -1,20 +1,25 @@
-import { createStore, configureStore } from "redux";
-import { createSlice } from "reduxjs/toolkit";
+import { createSlice, configureStore } from "@reduxjs/toolkit";
 
 const initialState = {
-  global: null,
+  user: null,
+  isLoggedIn: false,
 };
 
 const globalSlice = createSlice({
   name: "global",
   initialState: initialState,
   reducers: {
-    setGlobal(state, action) {
+    setUser(state, action) {
       state.global = action.payload;
+    },
+    setIsLoggedIn(state, action) {
+      state.isLoggedIn = action.payload;
     },
   },
 });
 
-const store = configureStore({ reducer: globalSlice.reducer });
+const globalStore = configureStore({ reducer: globalSlice.reducer });
 
-export default store;
+export const globalActions = globalSlice.actions;
+
+export default globalStore;
