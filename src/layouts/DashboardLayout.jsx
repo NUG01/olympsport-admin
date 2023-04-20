@@ -13,6 +13,7 @@
   ```
 */
 import checkAuth from "../guards/checkAuth";
+import {NavLink} from 'react-router-dom';
 import { useDispatch } from "react-redux";
 import { globalActions } from "../store/index.js";
 import BasicAxios from "../helpers/axios/BasicAxios.js";
@@ -21,29 +22,30 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
-  BellIcon,
-  Cog6ToothIcon,
   HomeIcon,
   UsersIcon,
   XMarkIcon,
   InboxStackIcon,
   TagIcon,
   Squares2X2Icon,
+  InformationCircleIcon,
+  DocumentIcon,
 } from "@heroicons/react/24/outline";
 import {
   ChevronDownIcon,
-  MagnifyingGlassIcon,
 } from "@heroicons/react/20/solid";
 
 const navigation = [
-  { name: 'Dashboard', href: '#', icon: HomeIcon, current: true },
-  { name: 'Users', href: '#', icon: UsersIcon, current: false },
-  { name: 'Categories', href: '#', icon: Squares2X2Icon, current: false },
-  { name: 'Brands', href: '#', icon: TagIcon, current: false },
-  { name: 'Products', href: '#', icon: InboxStackIcon, current: false },
+  { name: 'Dashboard', href: '/dashboard', icon: HomeIcon},
+  { name: 'Users', href: '/dashboard/users', icon: UsersIcon },
+  { name: 'Categories', href: '/dashboard/categories', icon: Squares2X2Icon },
+  { name: 'Brands', href: '/dashboard/brands', icon: TagIcon },
+  { name: 'Products', href: '/dashboard/products', icon: InboxStackIcon },
+  { name: 'Terms&Conditions', href: '/dashboard/terms_and_conditions', icon: DocumentIcon },
+  { name: 'About us', href: '/dashboard/about_us', icon: InformationCircleIcon },
 ];
 
-const userNavigation = [{ name: "Your profile", href: "#" }];
+const userNavigation = [{ name: "Your profile", href: "/dashboard/user/profile" }];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -140,36 +142,23 @@ function Dashboard() {
                           <ul role="list" className="-mx-2 space-y-1">
                             {navigation.map((item) => (
                               <li key={item.name}>
-                                <a
-                                  href={item.href}
-                                  className={classNames(
-                                    item.current
-                                      ? "bg-gray-800 text-white"
-                                      : "text-gray-400 hover:text-white hover:bg-gray-800",
-                                    "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
-                                  )}
+                                <NavLink
+                                  to={item.href}
+                                  className={({ isActive 
+                                  }) =>
+                                  isActive ? "bg-gray-800 text-white group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold" : "text-gray-400 hover:text-white hover:bg-gray-800 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold" 
+                                }
+                                end
                                 >
                                   <item.icon
                                     className="h-6 w-6 shrink-0"
                                     aria-hidden="true"
                                   />
                                   {item.name}
-                                </a>
+                                </NavLink>
                               </li>
                             ))}
                           </ul>
-                        </li>
-                        <li className="mt-auto">
-                          <a
-                            href="#"
-                            className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white"
-                          >
-                            <Cog6ToothIcon
-                              className="h-6 w-6 shrink-0"
-                              aria-hidden="true"
-                            />
-                            Settings
-                          </a>
                         </li>
                       </ul>
                     </nav>
@@ -197,36 +186,22 @@ function Dashboard() {
                   <ul role="list" className="-mx-2 space-y-1">
                     {navigation.map((item) => (
                       <li key={item.name}>
-                        <a
-                          href={item.href}
-                          className={classNames(
-                            item.current
-                              ? "bg-gray-800 text-white"
-                              : "text-gray-400 hover:text-white hover:bg-gray-800",
-                            "group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
-                          )}
+                       <NavLink
+                          to={item.href}
+                          className={({ isActive }) =>
+                          isActive ? "bg-gray-800 text-white group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold" : "text-gray-400 hover:text-white hover:bg-gray-800 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold" 
+                        }
+                        end
                         >
                           <item.icon
                             className="h-6 w-6 shrink-0"
                             aria-hidden="true"
                           />
                           {item.name}
-                        </a>
+                        </NavLink>
                       </li>
                     ))}
                   </ul>
-                </li>
-                <li className="mt-auto">
-                  <a
-                    href="#"
-                    className="group -mx-2 flex gap-x-3 rounded-md p-2 text-sm font-semibold leading-6 text-gray-400 hover:bg-gray-800 hover:text-white"
-                  >
-                    <Cog6ToothIcon
-                      className="h-6 w-6 shrink-0"
-                      aria-hidden="true"
-                    />
-                    Settings
-                  </a>
                 </li>
               </ul>
             </nav>
@@ -257,17 +232,12 @@ function Dashboard() {
                 <Menu as="div" className="relative justify-self-end">
                   <Menu.Button className="-m-1.5 flex items-center p-1.5">
                     <span className="sr-only">Open user menu</span>
-                    <img
-                      className="h-8 w-8 rounded-full bg-gray-50"
-                      src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                      alt=""
-                    />
                     <span className="hidden lg:flex lg:items-center">
                       <span
                         className="ml-4 text-sm font-semibold leading-6 text-gray-900"
                         aria-hidden="true"
                       >
-                        Tom Cook
+                        Admin
                       </span>
                       <ChevronDownIcon
                         className="ml-2 h-5 w-5 text-gray-400"
