@@ -4,6 +4,8 @@ import { csrf } from "../services/index";
 import SanctumAxios from "../helpers/axios/SanctumAxios";
 import { useDispatch } from "react-redux";
 import { globalActions } from "../store/index.js";
+import checkGuest from "../guards/checkGuest";
+import { Link, useNavigate } from "react-router-dom";
 
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).+$/;
@@ -14,6 +16,7 @@ function checkValidity(value, regex) {
 
 function LoginPage() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const emailRef = useRef();
   const passwordRef = useRef();
   async function submitHandler(ev) {
@@ -33,9 +36,9 @@ function LoginPage() {
           email: emailValue,
           password: passwordValue,
         });
-        const user = await SanctumAxios.get("user");
-        dispatch(globalActions.setUser(user.data));
+        dispatch(globalActions.setUser(res.data));
         dispatch(globalActions.setIsLoggedIn(true));
+        window.location.href = "/dashboard/main";
       } catch (error) {
         console.log(error);
       }
@@ -109,4 +112,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default checkGuest(LoginPage);

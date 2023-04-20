@@ -1,6 +1,6 @@
 import axios from "axios";
 const SanctumAxios = axios.create({
-  baseURL: "http://localhost:8000/api/",
+  baseURL: "http://localhost:8000/",
   headers: {
     // Accept: "application/json",
     // "Content-Type": "application/json",
