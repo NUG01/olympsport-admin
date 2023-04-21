@@ -9,13 +9,15 @@ import DashboardLayout from "./layouts/DashboardLayout";
 //pages
 import Dashobard from "./pages/Dashboard";
 import LoginPage from "./pages/LoginPage";
-import Users from "./pages/Users";
+import Users from "./pages/users/Users";
 import Categories from './pages/Categories';
 import Brands from './pages/Brands';
 import Products from './pages/Products';
-import UserProfile from "./pages/UserProfile.jsx";
+import AdminProfile from "./pages/AdminProfile.jsx";
 import TermsAndConditions from "./pages/TermsAndConditions.jsx";
 import AboutUs from "./pages/AboutUs.jsx";
+import UserEdit from "./pages/users/UserEdit.jsx";
+
 
 import "./App.css";
 
@@ -54,10 +56,11 @@ function App() {
       <Route path="/dashboard" element={<DashboardLayout data={authStatus} />}>
         <Route path="" element={<Dashobard data={authStatus} />}></Route>
         <Route path="users" element={<Users data={authStatus} />}></Route>
+        <Route path="user/edit/:id" element={<UserEdit data={authStatus} />}></Route>
         <Route path="categories" element={<Categories data={authStatus} />}></Route>
         <Route path="brands" element={<Brands data={authStatus} />}></Route>
         <Route path="products" element={<Products data={authStatus} />}></Route>
-        <Route path="user/profile" element={<UserProfile data={authStatus} />}></Route>
+        <Route path="admin/profile" element={<AdminProfile data={authStatus} />}></Route>
         <Route path="terms_and_conditions" element={<TermsAndConditions data={authStatus} />}></Route>
         <Route path="about_us" element={<AboutUs data={authStatus} />}></Route>
       </Route>

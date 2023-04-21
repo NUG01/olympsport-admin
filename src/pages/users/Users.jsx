@@ -1,5 +1,5 @@
 import React from 'react'
-import checkAuth from '../guards/checkAuth'
+import checkAuth from '../../guards/checkAuth'
 
 const people = [
     {id:1, name: 'Lindsay Walton', phone_number: '+995 555 123 456', email: 'lindsay.walton@example.com', plan: 'Cheap', verified: true},
@@ -60,7 +60,7 @@ const people = [
                         </span>
                         </td>
                       <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-3">
-                        <a href="#" className="text-indigo-600 hover:text-indigo-900">
+                        <a href={"user/edit/"+person.id} className="text-indigo-600 hover:text-indigo-900">
                           Edit<span className="sr-only">, {person.name}</span>
                         </a>
                       </td>

@@ -45,7 +45,7 @@ const navigation = [
   { name: 'About us', href: '/dashboard/about_us', icon: InformationCircleIcon },
 ];
 
-const userNavigation = [{ name: "Your profile", href: "/dashboard/user/profile" }];
+const userNavigation = [{ name: "Your profile", href: "/dashboard/admin/profile" }];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");

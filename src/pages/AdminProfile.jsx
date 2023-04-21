@@ -1,12 +1,14 @@
-import { React, useState } from 'react'
-import checkAuth from '../guards/checkAuth'
+import { React, useState } from 'react';
+import checkAuth from '../guards/checkAuth';
+import { useParams } from 'react-router-dom';
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function UserProfile() {
-
+export default function AdminProfile() {
+    // const params = useParams()
+    // alert(params.name)
   return (
     <>
         <main>

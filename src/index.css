@@ -10,3 +10,7 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+.ql-editor {
+  min-height: 500px;
+}
