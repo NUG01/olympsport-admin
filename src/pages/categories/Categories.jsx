@@ -1,5 +1,5 @@
 import React from 'react'
-import checkAuth from '../guards/checkAuth'
+import checkAuth from '../../guards/checkAuth'
 
 const categories = [
   {id: 1, name: '1st category', number_of_products: 23, brands: 4},

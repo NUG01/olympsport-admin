@@ -1,17 +1,3 @@
-/*
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
-*/
 import checkAuth from "../guards/checkAuth";
 import {NavLink} from 'react-router-dom';
 import { useDispatch } from "react-redux";

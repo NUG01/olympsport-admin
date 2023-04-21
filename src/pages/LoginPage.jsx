@@ -38,7 +38,7 @@ function LoginPage() {
         });
         dispatch(globalActions.setUser(res.data));
         dispatch(globalActions.setIsLoggedIn(true));
-        window.location.href = "/dashboard/main";
+        window.location.href = "/dashboard";
       } catch (error) {
         console.log(error);
       }

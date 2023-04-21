@@ -2,8 +2,8 @@ import { React, useState } from 'react';
 import checkAuth from '../../guards/checkAuth';
 import UserSaveModal from '../../components/users/UserSaveModal';
 import UserDeleteModal from '../../components/users/UserDeleteModal';
-import { UserCircleIcon, CheckIcon } from '@heroicons/react/24/solid';
-import { Link } from 'react-router-dom';
+import { UserCircleIcon } from '@heroicons/react/24/solid';
+
 
 const tiers = [
   {

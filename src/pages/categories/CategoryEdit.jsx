@@ -1,8 +1,8 @@
 import React from 'react'
-import checkAuth from '../guards/checkAuth'
+import checkAuth from '../../guards/checkAuth'
 
 function Brands() {
-  return <h1 style={{backgroundColor: 'red'}}>Brands</h1>
+  return <h1 style={{backgroundColor: 'red'}}>CategoryEdit</h1>
 
 }
 
