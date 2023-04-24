@@ -1,21 +1,33 @@
-import React from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import AlertModal from "../components/AlertModal";
 
 export default function Categories(props) {
+  const [modalId, setModalId] = useState(null);
+  const [modalBackdrop, setModalBackdrop] = useState(false);
+
   const data = props.data;
   const columns = props.columns;
-  console.log(columns);
+
+  function setModalOpen(id) {
+    if (document.getElementById("modal-" + id)) {
+      setModalId(null);
+      return null;
+    }
+    setModalBackdrop(true);
+    setModalId(id);
+    return id;
+  }
 
   return (
     <div className="px-4 sm:px-6 lg:px-8">
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
           <h1 className="text-base font-semibold leading-6 text-gray-900">
-            Categories
+            {props.type}
           </h1>
           <p className="mt-2 text-sm text-gray-700">
-            A list of all the categories and it's subcategories in your
-            application.
+            A list of all the {props.type.toLowerCase()} in your application.
           </p>
         </div>
         <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
@@ -23,7 +35,7 @@ export default function Categories(props) {
             type="button"
             className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
-            Add Category
+            Add
           </button>
         </div>
       </div>
@@ -78,8 +90,34 @@ export default function Categories(props) {
                         </Link>
                       </td>
                       <td>
-                        <form action="#" method="post">
-                          <button className="text-red-600 hover:text-red-900">
+                        <form>
+                          {modalBackdrop && (
+                            <div
+                              onClick={() => setModalBackdrop(false)}
+                              className="fixed inset-0 transition-opacity"
+                              style={{
+                                backgroundColor: "#4D4D4D4D",
+                                opacity: "10%",
+                              }}
+                            />
+                          )}
+                          {modalId == item.id && (
+                            <div id={"modal-" + item.id}>
+                              <AlertModal
+                                id={item.id}
+                                delete={deleteHandler}
+                                close={() => {
+                                  setModalId(null);
+                                  setModalBackdrop(false);
+                                }}
+                              />
+                            </div>
+                          )}
+                          <button
+                            type="button"
+                            onClick={() => setModalOpen(item.id)}
+                            className="text-red-600 hover:text-red-900"
+                          >
                             Delete<span className="sr-only">, {item.name}</span>
                           </button>
                         </form>
