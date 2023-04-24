@@ -52,7 +52,7 @@ export default function Categories(props) {
                         scope="col"
                         className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                       >
-                        {name.toUpperCase()}
+                        {name.replace("_", " ").toUpperCase()}
                       </th>
                     ))}
                     <th
@@ -89,35 +89,9 @@ export default function Categories(props) {
                           Edit<span className="sr-only">, {item.name}</span>
                         </Link>
                       </td>
-                      <td>
-                        <form>
-                          {modalBackdrop && (
-                            <div
-                              onClick={() => setModalBackdrop(false)}
-                              className="fixed inset-0 transition-opacity"
-                              style={{
-                                backgroundColor: "#4D4D4D4D",
-                                opacity: "10%",
-                              }}
-                            />
-                          )}
-                          {modalId == item.id && (
-                            <div id={"modal-" + item.id}>
-                              <AlertModal
-                                id={item.id}
-                                delete={deleteHandler}
-                                close={() => {
-                                  setModalId(null);
-                                  setModalBackdrop(false);
-                                }}
-                              />
-                            </div>
-                          )}
-                          <button
-                            type="button"
-                            onClick={() => setModalOpen(item.id)}
-                            className="text-red-600 hover:text-red-900"
-                          >
+                      <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                        <form action="#" method="post">
+                          <button className="text-red-600 hover:text-red-900">
                             Delete<span className="sr-only">, {item.name}</span>
                           </button>
                         </form>
