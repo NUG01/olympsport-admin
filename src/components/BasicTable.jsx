@@ -132,6 +132,7 @@ export default function Categories(props) {
                                   setModalId(null);
                                   setModalBackdrop(false);
                                 }}
+                                delete={props.type === 'category' ? item.slug : item.id}
                               />
                             </div>
                           )}

@@ -23,7 +23,7 @@ export default function Users() {
                 </div>
             </div>
             {users.length > 0 && (
-              <BasicTable columns={Object.keys(users[0])} data={users} type={'users'} setState={setUsers}/>
+              <BasicTable columns={Object.keys(users[0])} data={users} type='users' setState={setUsers}/>
             )}
         </div>
     );
