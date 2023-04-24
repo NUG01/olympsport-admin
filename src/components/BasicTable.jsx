@@ -77,7 +77,7 @@ export default function Categories(props) {
                           Edit<span className="sr-only">, {item.name}</span>
                         </Link>
                       </td>
-                      <td>
+                      <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                         <form action="#" method="post">
                           <button className="text-red-600 hover:text-red-900">
                             Delete<span className="sr-only">, {item.name}</span>
