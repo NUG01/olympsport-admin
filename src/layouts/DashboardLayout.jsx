@@ -27,8 +27,8 @@ const navigation = [
   { name: 'Categories', href: '/dashboard/categories', icon: Squares2X2Icon },
   { name: 'Brands', href: '/dashboard/brands', icon: TagIcon },
   { name: 'Products', href: '/dashboard/products', icon: InboxStackIcon },
-  { name: 'Terms&Conditions', href: '/dashboard/terms_and_conditions', icon: DocumentIcon },
-  { name: 'About us', href: '/dashboard/about_us', icon: InformationCircleIcon },
+  { name: 'Terms&Conditions', href: '/dashboard/terms-and-conditions', icon: DocumentIcon },
+  { name: 'About us', href: '/dashboard/about-us', icon: InformationCircleIcon },
 ];
 
 const userNavigation = [{ name: "Your profile", href: "/dashboard/admin/profile" }];

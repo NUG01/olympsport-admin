@@ -75,8 +75,8 @@ function App() {
         <Route path="products" element={<Products data={authStatus} />}></Route>
         <Route path="product/edit/:1" element={<ProductEdit data={authStatus} />}></Route>
         <Route path="admin/profile" element={<AdminProfile data={authStatus} />}></Route>
-        <Route path="terms_and_conditions" element={<TermsAndConditions data={authStatus} />}></Route>
-        <Route path="about_us" element={<AboutUs data={authStatus} />}></Route>
+        <Route path="terms-and-conditions" element={<TermsAndConditions data={authStatus} />}></Route>
+        <Route path="about-us" element={<AboutUs data={authStatus} />}></Route>
       </Route>
     </Routes>
   );
