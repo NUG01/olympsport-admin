@@ -1,22 +1,35 @@
-import React from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import CustomSwitch from "./CustomSwitch";
 import BasicAxios from "../helpers/axios/BasicAxios";
+import AlertModal from "../components/AlertModal";
 
 export default function Categories(props) {
+  const [modalId, setModalId] = useState(null);
+  const [modalBackdrop, setModalBackdrop] = useState(false);
+
   const data = props.data;
   const columns = props.columns;
+
+  function setModalOpen(id) {
+    if (document.getElementById("modal-" + id)) {
+      setModalId(null);
+      return null;
+    }
+    setModalBackdrop(true);
+    setModalId(id);
+    return id;
+  }
 
   return (
     <div className="px-4 sm:px-6 lg:px-8">
       <div className="sm:flex sm:items-center">
         <div className="sm:flex-auto">
           <h1 className="text-base font-semibold leading-6 text-gray-900">
-            Categories
+            {props.type}
           </h1>
           <p className="mt-2 text-sm text-gray-700">
-            A list of all the categories and it's subcategories in your
-            application.
+            A list of all the {props.type.toLowerCase()} in your application.
           </p>
         </div>
         <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
@@ -24,7 +37,7 @@ export default function Categories(props) {
             type="button"
             className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
-            Add Category
+            Add
           </button>
         </div>
       </div>
@@ -41,7 +54,7 @@ export default function Categories(props) {
                         scope="col"
                         className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                       >
-                        {name.replace('_', ' ').toUpperCase()}
+                        {name.replace("_", " ").toUpperCase()}
                       </th>
                     ))}
                     <th
