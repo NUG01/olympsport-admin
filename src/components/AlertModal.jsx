@@ -1,4 +1,5 @@
 import { Fragment, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { Dialog, Transition } from "@headlessui/react";
 import BasicAxios from "../helpers/axios/BasicAxios";
 import {
@@ -7,20 +8,32 @@ import {
 } from "@heroicons/react/24/outline";
 
 export default function Example(props) {
+  const { pathname } = useLocation();
   const [open, setOpen] = useState(true);
 
   const cancelButtonRef = useRef(null);
 
   function deleteHandler() {
     props.close();
-    console.log(props.id);
-    console.log(props);
+    if (props.type == "Categories") {
+      BasicAxios.delete("admin/category/delete/" + props.item.slug).then(
+        (res) => {
+          console.log(res);
+        }
+      );
+    } else {
+      let parts = pathname.split("/");
+      let url = parts[parts.length - 1];
+      BasicAxios.delete("admin/" + url + "/delete/" + props.id).then((res) => {
+        console.log(res);
+      });
+    }
   }
 
   return (
     <Transition.Root show={open} as={Fragment}>
       <Dialog as="div" className="relative z-10" onClose={() => props.close()}>
-        <div className="fixed inset-0 z-10 overflow-y-auto">
+        <div className="fixed inset-0 z-10 overflow-y-auto modal-backdrop">
           <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
             <Transition.Child as={Fragment}>
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left transition-all sm:my-8 sm:w-full sm:max-w-lg sm:p-6">

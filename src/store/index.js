@@ -10,7 +10,7 @@ const globalSlice = createSlice({
   initialState: initialState,
   reducers: {
     setUser(state, action) {
-      state.global = action.payload;
+      state.user = action.payload;
     },
     setIsLoggedIn(state, action) {
       state.isLoggedIn = action.payload;

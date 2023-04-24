@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import CustomSwitch from "./CustomSwitch";
 import BasicAxios from "../helpers/axios/BasicAxios";
 import AlertModal from "../components/AlertModal";
@@ -7,9 +7,12 @@ import AlertModal from "../components/AlertModal";
 export default function Categories(props) {
   const [modalId, setModalId] = useState(null);
   const [modalBackdrop, setModalBackdrop] = useState(false);
+  const { pathname } = useLocation();
 
   const data = props.data;
   const columns = props.columns;
+  let parts = pathname.split("/");
+  let url = parts[parts.length - 1];
 
   function setModalOpen(id) {
     if (document.getElementById("modal-" + id)) {
@@ -106,7 +109,9 @@ export default function Categories(props) {
 
                       <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                         <Link
-                          to={`/dashboard/category/edit/${item.id}`}
+                          to={`/dashboard/${url}/edit/${
+                            props.type == "Categories" ? item.slug : item.id
+                          }`}
                           className="text-indigo-600 hover:text-indigo-900"
                         >
                           Edit<span className="sr-only">, {item.name}</span>
@@ -114,25 +119,21 @@ export default function Categories(props) {
                       </td>
                       <td>
                         <form>
-                          {modalBackdrop && (
-                            <div
-                              onClick={() => setModalBackdrop(false)}
-                              className="fixed inset-0 transition-opacity"
-                              style={{
-                                backgroundColor: "#4D4D4D4D",
-                                opacity: "10%",
-                              }}
-                            />
-                          )}
                           {modalId == item.id && (
                             <div id={"modal-" + item.id}>
                               <AlertModal
                                 id={item.id}
+                                type={props.type}
+                                item={item}
                                 close={() => {
                                   setModalId(null);
                                   setModalBackdrop(false);
                                 }}
-                                delete={props.type === 'category' ? item.slug : item.id}
+                                delete={
+                                  props.type === "category"
+                                    ? item.slug
+                                    : item.id
+                                }
                               />
                             </div>
                           )}
