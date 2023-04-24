@@ -14,6 +14,7 @@ export default function Example(props) {
   function deleteHandler() {
     props.close();
     console.log(props.id);
+    console.log(props);
   }
 
   return (
