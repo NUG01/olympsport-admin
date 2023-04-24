@@ -89,9 +89,35 @@ export default function Categories(props) {
                           Edit<span className="sr-only">, {item.name}</span>
                         </Link>
                       </td>
-                      <td className="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                        <form action="#" method="post">
-                          <button className="text-red-600 hover:text-red-900">
+                      <td>
+                        <form>
+                          {modalBackdrop && (
+                            <div
+                              onClick={() => setModalBackdrop(false)}
+                              className="fixed inset-0 transition-opacity"
+                              style={{
+                                backgroundColor: "#4D4D4D4D",
+                                opacity: "10%",
+                              }}
+                            />
+                          )}
+                          {modalId == item.id && (
+                            <div id={"modal-" + item.id}>
+                              <AlertModal
+                                id={item.id}
+                                delete={deleteHandler}
+                                close={() => {
+                                  setModalId(null);
+                                  setModalBackdrop(false);
+                                }}
+                              />
+                            </div>
+                          )}
+                          <button
+                            type="button"
+                            onClick={() => setModalOpen(item.id)}
+                            className="text-red-600 hover:text-red-900"
+                          >
                             Delete<span className="sr-only">, {item.name}</span>
                           </button>
                         </form>
