@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import CustomSwitch from "./CustomSwitch";
+import BasicAxios from "../helpers/axios/BasicAxios";
 import AlertModal from "../components/AlertModal";
 
 export default function Categories(props) {
@@ -77,6 +79,27 @@ export default function Categories(props) {
                           key={i}
                           className="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
                         >
+                          {(key === 'verified' && props.type === 'users' &&
+
+                            <CustomSwitch item={item} switchFunction={
+                              (item)=>{
+                                BasicAxios.post("admin/users/status", {id: item.id})
+                                .then(res => {
+                                  const newState = data.map((user) => {
+                                    if(user.id === item.id){
+                                      let verified = !user.verified
+                                      return {...user, verified}
+                                    }
+
+                                    return user
+                                  });
+                                  props.setState(newState)
+                                })      
+                              }
+                            }/>
+
+                          )}
+
                           {item[key]}
                         </td>
                       ))}
