@@ -1,5 +1,6 @@
 import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
+import BasicAxios from "../helpers/axios/BasicAxios";
 import {
   ExclamationTriangleIcon,
   IdentificationIcon,
