@@ -1,10 +1,10 @@
 import React from 'react'
 import checkAuth from '../../guards/checkAuth'
 
-function Brands() {
+function CategoryAdd() {
   return <h1 style={{backgroundColor: 'red'}}>CategoryAdd</h1>
 
 }
 
 // export default checkAuth(MainPage)
-export default Brands
+export default CategoryAdd

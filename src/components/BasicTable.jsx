@@ -36,12 +36,12 @@ export default function Categories(props) {
           </p>
         </div>
         <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
-          <button
-            type="button"
+          <Link
+            to={'add'} 
             className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Add
-          </button>
+          </Link>
         </div>
       </div>
       <div className="mt-8 flow-root">
@@ -51,9 +51,9 @@ export default function Categories(props) {
               <table className="min-w-full divide-y divide-gray-300">
                 <thead className="bg-gray-50">
                   <tr>
-                    {columns.map((name) => (
+                    {columns.map((name, index) => (
                       <th
-                        key={name}
+                        key={index}
                         scope="col"
                         className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6"
                       >
@@ -75,8 +75,8 @@ export default function Categories(props) {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
-                  {data.map((item) => (
-                    <tr key={item.id}>
+                  {data.map((item, index) => (
+                    <tr key={props.type === 'categories' ? item.name+'-'+item.id+'-'+index : item.id+'-'+index}>
                       {columns.map((key, i) => (
                         <td
                           key={i}
