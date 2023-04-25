@@ -12,8 +12,9 @@ function CategoryEdit() {
   const catName = useRef()
   const catSearch = useRef()
   const catId = useRef()
-  console.log(params.id);
+
   useEffect(() => {
+    console.log(params.id);
     BasicAxios.get("admin/category/" + params.id).then((res) => {
       setCurCat(res.data.data)
       console.log(res.data.data);
@@ -44,8 +45,10 @@ function CategoryEdit() {
   }
 
   function saveCategory(){
+    console.log(catName.current.value);
+    console.log(catId.current.value);
     if(catName.current.value.length != 0 && catId.current.value != 0){
-      BasicAxios.post('admin/category/store', {name: catName.current.value, id: catId.current.value})
+      BasicAxios.post('admin/category/update'+params.id, {name: catName.current.value, id: catId.current.value})
       .then((res) => {
         console.log(res);
       });

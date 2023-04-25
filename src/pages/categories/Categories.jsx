@@ -23,6 +23,7 @@ export default function Categories() {
     Load()
 
     BasicAxios.get("categories").then((res) => {
+      console.log(res.data.data);
       orderCategories(res.data.data)
       setColumnNames(Object.keys(res.data.data[0]));
     });
