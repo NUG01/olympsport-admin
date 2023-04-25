@@ -18,11 +18,9 @@ function CategoryAdd() {
         if(lastRequest.current != null) lastRequest.current.cancel()
 
         lastRequest.current = axios.CancelToken.source()
-        console.log(cat_name);
         BasicAxios.post('admin/category/search', {name: cat_name}, {
             cancelToken: lastRequest.current.token, 
         }).then((res) => {
-            console.log(res.data.data);
             setCategories(res.data.data)
         });
     }
@@ -92,7 +90,7 @@ function CategoryAdd() {
                           className='text-[14px] py-3 px-2 cursor-pointer transition-[background] hover:bg-gray-400'
                           onClick={()=>setCategory(cat)}
                         >
-                          {cat.name}
+                          {cat.name} - ({cat.slug})
                         </p>
                       )
                     })
