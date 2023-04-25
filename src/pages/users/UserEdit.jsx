@@ -5,6 +5,8 @@ import UserDeleteModal from "../../components/users/UserDeleteModal";
 import { UserCircleIcon } from "@heroicons/react/24/solid";
 import UserInput from "./Inputs/UserInput";
 import { useSelector } from "react-redux";
+import BasicAxios from "../../helpers/axios/BasicAxios";
+import CityInput from "./Inputs/CityInput";
 
 const tiers = [
   {
@@ -53,7 +55,10 @@ function classNames(...classes) {
 export default function UserEdit() {
   const [modal, setModal] = useState(false);
   const [saveModal, setSaveModal] = useState(false);
-  const user = useSelector((state) => state.user);
+  const [successMessage, setSuccessMessage] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(false);
+
+  const [user, setUser] = useState(useSelector((state) => state.user));
 
   function closeDeleteModal() {
     setModal(false);
@@ -63,12 +68,32 @@ export default function UserEdit() {
     setSaveModal(false);
   }
 
+  function updateCityValue(cityId) {
+    setUser({ ...user, city: cityId });
+  }
+
+  async function submitHandler() {
+    try {
+      const res = await BasicAxios.post("admin/users/edit/" + user.id, user);
+      setSuccessMessage(true);
+      setTimeout(() => {
+        setSuccessMessage(false);
+      }, 3600);
+    } catch (error) {
+      setErrorMessage(true);
+      setTimeout(() => {
+        setErrorMessage(false);
+      }, 3600);
+    }
+  }
   return (
     <>
       {modal && <UserDeleteModal close={closeDeleteModal} />}
 
-      {saveModal && <UserSaveModal close={closeSaveModal} />}
-      <form>
+      {saveModal && (
+        <UserSaveModal submitSave={submitHandler} close={closeSaveModal} />
+      )}
+      <form onSubmit={submitHandler}>
         <div className="space-y-12">
           <h2 className="text-base font-semibold leading-7 text-gray-900">
             User profile
@@ -76,7 +101,7 @@ export default function UserEdit() {
           <p className="mt-1 text-sm leading-6 text-gray-600">
             This information belongs to the client so be careful what you share.
           </p>
-          <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+          {/* <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             <div className="col-span-full">
               <label
                 htmlFor="photo"
@@ -97,22 +122,31 @@ export default function UserEdit() {
                 </button>
               </div>
             </div>
-          </div>
+          </div> */}
 
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6 border-b border-gray-900/10 pb-12">
             <UserInput
+              updateValue={(value) => {
+                setUser({ ...user, first_name: value });
+              }}
               value={user.first_name}
               type="text"
               name="first-name"
               label="First name"
             />
             <UserInput
+              updateValue={(value) => {
+                setUser({ ...user, last_name: value });
+              }}
               value={user.last_name}
               type="text"
               name="last-name"
               label="Last name"
             />
             <UserInput
+              updateValue={(value) => {
+                setUser({ ...user, username: value });
+              }}
               value={user.username}
               type="text"
               name="username"
@@ -120,11 +154,24 @@ export default function UserEdit() {
             />
 
             <UserInput
+              updateValue={(value) => {
+                setUser({ ...user, address: value });
+              }}
               value={user.address}
               type="text"
               name="address"
               label="Address"
             />
+            <UserInput
+              updateValue={(value) => {
+                setUser({ ...user, phone_number: value });
+              }}
+              value={user.phone_number}
+              type="text"
+              name="phone-number"
+              label="Phone Number"
+            />
+            <CityInput cityValue={updateCityValue} city={user.city}></CityInput>
           </div>
 
           <div className="border-b border-gray-900/10 pb-12 flex flex-col md:flex-row">
@@ -251,19 +298,19 @@ export default function UserEdit() {
         </div>
 
         <div className="mt-6 flex items-center justify-end gap-x-6">
-          <button
-            onClick={() => setModal(true)}
-            type="button"
-            className="text-sm font-semibold leading-6 text-red-900"
-          >
-            Delete
-          </button>
-          <button
-            type="button"
-            className="text-sm font-semibold leading-6 text-gray-900"
-          >
-            Cancel
-          </button>
+          <div className="flex items-center justify-center w-full h-full">
+            {errorMessage && (
+              <p className="text-[16px] font-[600] mt-[1rem] text-red-600 ">
+                Something went wrong!
+              </p>
+            )}
+
+            {successMessage && (
+              <p className="text-[16px] font-[600] mt-[1rem] text-green-600 ">
+                Updated successfully!
+              </p>
+            )}
+          </div>
           <button
             onClick={() => setSaveModal(true)}
             type="button"

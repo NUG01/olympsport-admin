@@ -2,7 +2,9 @@ import { useState } from "react";
 import { UserCircleIcon } from "@heroicons/react/24/solid";
 
 function UserInput(props) {
-  const [value, setValue] = useState(props.value);
+  function valueHandler(value) {
+    props.updateValue(value);
+  }
   return (
     <div className="sm:col-span-3">
       <label
@@ -13,11 +15,11 @@ function UserInput(props) {
       </label>
       <div className="mt-2">
         <input
-          onChange={(ev) => setValue(ev.target.value)}
+          onChange={(ev) => valueHandler(ev.target.value)}
           type={props.type}
           name={props.name}
           id={props.name}
-          value={value}
+          value={props.value}
           className="block px-[5px] w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
         />
       </div>
