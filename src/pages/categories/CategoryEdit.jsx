@@ -6,8 +6,10 @@ import { useParams } from "react-router-dom";
 function CategoryEdit() {
   const params = useParams();
   useEffect(() => {
+    console.log(params.id);
     BasicAxios.get("category/" + params.id).then((res) => {
       console.log(res);
+
     });
   }, []);
   return <h1 style={{ backgroundColor: "red" }}>CategoryEdit</h1>;
