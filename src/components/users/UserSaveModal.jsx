@@ -1,9 +1,12 @@
-import { Fragment, useState, React } from 'react'
-import { Dialog, Transition } from '@headlessui/react'
-import { ExclamationTriangleIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { Fragment, useState, React } from "react";
+import { Dialog, Transition } from "@headlessui/react";
+import {
+  ExclamationTriangleIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
 
 export default function UserSaveModal(props) {
-  function closeModal(){
+  function closeModal() {
     props.close();
   }
 
@@ -46,15 +49,22 @@ export default function UserSaveModal(props) {
                 </div>
                 <div className="sm:flex sm:items-start">
                   <div className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10">
-                    <ExclamationTriangleIcon className="h-6 w-6 text-green-600" aria-hidden="true" />
+                    <ExclamationTriangleIcon
+                      className="h-6 w-6 text-green-600"
+                      aria-hidden="true"
+                    />
                   </div>
                   <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                    <Dialog.Title as="h3" className="text-base font-semibold leading-6 text-gray-900">
+                    <Dialog.Title
+                      as="h3"
+                      className="text-base font-semibold leading-6 text-gray-900"
+                    >
                       Save modified data?
                     </Dialog.Title>
                     <div className="mt-2">
                       <p className="text-sm text-gray-500">
-                        Are you sure you want to save this account's data? All of data will be saved!
+                        Are you sure you want to save this account's data? All
+                        of data will be saved!
                       </p>
                     </div>
                   </div>
@@ -63,7 +73,10 @@ export default function UserSaveModal(props) {
                   <button
                     type="button"
                     className="inline-flex w-full justify-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 sm:ml-3 sm:w-auto"
-                    onClick={close}
+                    onClick={() => {
+                      closeModal();
+                      props.submitSave();
+                    }}
                   >
                     Save
                   </button>
@@ -81,5 +94,5 @@ export default function UserSaveModal(props) {
         </div>
       </Dialog>
     </Transition.Root>
-  )
+  );
 }
