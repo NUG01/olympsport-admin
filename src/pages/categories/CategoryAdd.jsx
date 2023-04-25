@@ -11,14 +11,14 @@ function CategoryAdd() {
   const catSlug = useRef()
 
   function searchCategories(e){
-    let cat_name = e.target.value.toLowerCase()  
+    let cat_name = e.target.value
 
     if(cat_name.length > 2){
 
         if(lastRequest.current != null) lastRequest.current.cancel()
 
         lastRequest.current = axios.CancelToken.source()
-
+        console.log(cat_name);
         BasicAxios.post('admin/category/search', {name: cat_name}, {
             cancelToken: lastRequest.current.token, 
         }).then((res) => {
