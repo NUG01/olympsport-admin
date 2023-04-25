@@ -73,7 +73,18 @@ export default function UserEdit() {
   }
 
   async function submitHandler() {
-    const res = BasicAxios.post("admin/users/edit/" + user.id, user);
+    try {
+      const res = await BasicAxios.post("admin/users/edit/" + user.id, user);
+      setSuccessMessage(true);
+      setTimeout(() => {
+        setSuccessMessage(false);
+      }, 3600);
+    } catch (error) {
+      setErrorMessage(true);
+      setTimeout(() => {
+        setErrorMessage(false);
+      }, 3600);
+    }
   }
   return (
     <>
@@ -287,33 +298,19 @@ export default function UserEdit() {
         </div>
 
         <div className="mt-6 flex items-center justify-end gap-x-6">
-          {/* <button
-            onClick={() => setModal(true)}
-            type="button"
-            className="text-sm font-semibold leading-6 text-red-900"
-          >
-            Delete
-          </button> */}
-          {/* <button
-            type="button"
-            className="text-sm font-semibold leading-6 text-gray-900"
-          >
-            Cancel
-          </button> */}
-          {errorMessage && (
-            <p
-              key={key}
-              className="text-[16px] font-[600] mt-[1rem] text-red-600"
-            >
-              Something went wrong!
-            </p>
-          )}
+          <div className="flex items-center justify-center w-full h-full">
+            {errorMessage && (
+              <p className="text-[16px] font-[600] mt-[1rem] text-red-600 ">
+                Something went wrong!
+              </p>
+            )}
 
-          {successMessage && (
-            <p className="text-[16px] font-[600] mt-[1rem] text-green-600">
-              Updated successfully!
-            </p>
-          )}
+            {successMessage && (
+              <p className="text-[16px] font-[600] mt-[1rem] text-green-600 ">
+                Updated successfully!
+              </p>
+            )}
+          </div>
           <button
             onClick={() => setSaveModal(true)}
             type="button"
