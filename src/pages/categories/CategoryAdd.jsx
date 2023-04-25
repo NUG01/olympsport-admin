@@ -8,7 +8,7 @@ function CategoryAdd() {
   const lastRequest = useRef(null)
   const catName = useRef()
   const catSearch = useRef()
-  const catSlug = useRef()
+  const catId = useRef()
 
   function searchCategories(e){
     let cat_name = e.target.value
@@ -28,15 +28,14 @@ function CategoryAdd() {
 
   function setCategory(cat){
     catSearch.current.value = cat.name
-    catSlug.current.value = cat.slug
+    catId.current.value = cat.id
     setCategories([])
 
   }
 
   function saveCategory(){
-    if(catName.current.value.length != 0 && catSlug.current.value != 0){
-      console.log(catName.current.value);
-      console.log(catSlug.current.value);
+    if(catName.current.value.length != 0 && catId.current.value != 0){
+      BasicAxios.post('admin/category/store', {name: catName.current.value, id: catId.current.value});
     }
   }
 
@@ -66,7 +65,7 @@ function CategoryAdd() {
               Parent Category
           </label>
           <div className="relative mt-2 rounded-md md:w-fit w-full">
-              <input type="hidden" ref={catSlug}/>
+              <input type="hidden" ref={catId}/>
               <input
               type="text"
               name="parent"

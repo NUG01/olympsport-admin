@@ -10,9 +10,7 @@ export default function Categories() {
   const [columnNames, setColumnNames] = useState([]);
 
   function orderCategories(data){
-
     data.forEach(item => {
-      console.log(item);
       setCategories(categories => [...categories, item])
       if(item.children && item.children.length > 0) orderCategories(item.children)
     })
