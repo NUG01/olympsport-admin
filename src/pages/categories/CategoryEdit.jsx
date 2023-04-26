@@ -3,6 +3,7 @@ import checkAuth from "../../guards/checkAuth";
 import axios from 'axios';
 import BasicAxios from "../../helpers/axios/BasicAxios";
 import { useParams } from "react-router-dom";
+import { Load, RemoveLoader } from "../../hooks/Loader";
 
 function CategoryEdit() {
   const params = useParams();
@@ -14,10 +15,15 @@ function CategoryEdit() {
   const catId = useRef()
 
   useEffect(() => {
-    console.log(params.id);
+    Load()
     BasicAxios.get("admin/category/" + params.id).then((res) => {
       setCurCat(res.data.data)
-      console.log(res.data.data);
+      catName.current.value = res.data.data.name
+      if(res.data.data.parent){
+        catSearch.current.value = res.data.data.parent.name
+        catId.current.value = res.data.data.parent.id
+      }
+      RemoveLoader()
     });
   }, []);
 
@@ -45,11 +51,13 @@ function CategoryEdit() {
   }
 
   function saveCategory(){
-    console.log(catName.current.value);
-    console.log(catId.current.value);
-    if(catName.current.value.length != 0 && catId.current.value != 0){
-      BasicAxios.post('admin/category/update'+params.id, {name: catName.current.value, id: catId.current.value})
+    Load()
+
+    let parent_id = catId.current.value
+    if(catName.current.value.length != 0){
+      BasicAxios.patch('admin/category/update/'+params.id, {name: catName.current.value, parent_id})
       .then((res) => {
+        RemoveLoader()
         console.log(res);
       });
     }
@@ -68,7 +76,6 @@ function CategoryEdit() {
               type="text"
               name="category"
               id="category"
-              value={curCat.name}
               className="block w-[calc(100%-15px)] md:w-96 md:ml-[60px] ml-2 rounded-md border-0 py-1.5 pl-2 pr-12 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
               placeholder="Category name"
               aria-describedby="category"
@@ -100,10 +107,11 @@ function CategoryEdit() {
               >
                 {
                   categories.length > 0 && (
-                    categories.map(cat => {
+                    categories.map((cat, index) => {
                       return (
                         <p 
-                          className='text-[14px] py-3 px-2 cursor-pointer transition-[background] hover:bg-gray-400'
+                          key={index}
+                          className='text-[14px] py-3 px-2 cursor-pointer transition-[background] hover:bg-gray-400 break-words'
                           onClick={()=>setCategory(cat)}
                         >
                           {cat.name} - ({cat.slug})

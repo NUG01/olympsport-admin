@@ -83,10 +83,11 @@ function CategoryAdd() {
               >
                 {
                   categories.length > 0 && (
-                    categories.map(cat => {
+                    categories.map((cat, index) => {
                       return (
                         <p 
-                          className='text-[14px] py-3 px-2 cursor-pointer transition-[background] hover:bg-gray-400'
+                          key={index}
+                          className='text-[14px] py-3 px-2 cursor-pointer transition-[background] hover:bg-gray-400 break-words'
                           onClick={()=>setCategory(cat)}
                         >
                           {cat.name} - ({cat.slug})
