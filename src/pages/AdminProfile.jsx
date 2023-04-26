@@ -153,6 +153,7 @@ export default function AdminProfile() {
                   value={passwordValue}
                   style="col-span-full"
                   name="current-password"
+                  type="password"
                 >
                   Current password
                 </AdminUpdateInput>

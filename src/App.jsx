@@ -33,7 +33,6 @@ function App() {
   const [rendered, setRendered] = useState(false);
 
   const user = useSelector((state) => state.user);
-  // console.log(useSelector((state) => state.user));
 
   useEffect(() => {
     (async function () {
@@ -42,6 +41,10 @@ function App() {
       } else {
         try {
           const user = await BasicAxios.get("user");
+          if (user.data.role != 1) {
+            await BasicAxios.post("logout");
+            throw "No Permission";
+          }
           dispatch(globalActions.setUser(user.data));
           setAuthStatus(true);
         } catch (error) {
@@ -56,9 +59,18 @@ function App() {
 
   return (
     <Routes>
-      <Route path="" element={<LoginPage data={authStatus} />}></Route>
-      <Route path="/login" element={<LoginPage data={authStatus} />}></Route>
-      <Route path="/dashboard" element={<DashboardLayout data={authStatus} />}>
+      <Route
+        path=""
+        element={<LoginPage data={authStatus} user={user} />}
+      ></Route>
+      <Route
+        path="/login"
+        element={<LoginPage data={authStatus} user={user} />}
+      ></Route>
+      <Route
+        path="/dashboard"
+        element={<DashboardLayout data={authStatus} user={user} />}
+      >
         <Route path="" element={<Dashobard data={authStatus} />}></Route>
         <Route path="users" element={<Users data={authStatus} />}></Route>
         <Route

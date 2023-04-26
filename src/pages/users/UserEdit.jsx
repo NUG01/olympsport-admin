@@ -63,7 +63,7 @@ export default function UserEdit() {
 
   useEffect(() => {
     BasicAxios.get("admin/users/" + params.id).then((res) => {
-      setUser(res.data);
+      setUser(res.data.data);
     });
   }, []);
 
