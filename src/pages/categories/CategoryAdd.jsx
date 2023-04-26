@@ -2,8 +2,11 @@ import React, { useRef, useState } from 'react'
 import axios from 'axios';
 import BasicAxios from "../../helpers/axios/BasicAxios";
 import checkAuth from '../../guards/checkAuth'
+import { useNavigate  } from 'react-router-dom';
+import { Load, RemoveLoader } from '../../hooks/Loader';
 
 function CategoryAdd() {
+  const navigate = useNavigate();
   const [categories, setCategories] = useState([])
   const lastRequest = useRef(null)
   const catName = useRef()
@@ -34,8 +37,13 @@ function CategoryAdd() {
   }
 
   function saveCategory(){
-    if(catName.current.value.length != 0 && catId.current.value != 0){
-      BasicAxios.post('admin/category/store', {name: catName.current.value, id: catId.current.value});
+    Load()
+    if(catName.current.value.length){
+      BasicAxios.post('admin/category/store', {name: catName.current.value, id: catId.current.value})
+      .then(()=> {
+        RemoveLoader()
+        navigate("/dashboard/categories")
+      });
     }
   }
 

@@ -3,6 +3,9 @@ import checkAuth from '../guards/checkAuth';
 import { React, useState, useEffect } from 'react';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { Load, RemoveLoader } from "../hooks/Loader";
+import BasicAxios from "../helpers/axios/BasicAxios";
+
 // import BasicAxios from "../helpers/axios";
 // import { Load, RemoveLoader } from "../hooks/LoaderHandle";
 
@@ -21,41 +24,41 @@ export default function AboutUs() {
     ['clean']
   ];
 
-  // useEffect(() => {
-  //   Load()
-  //   BasicAxios.get("admin/terms").then((res) => {
-  //     RemoveLoader()
-  //     setSuccessMessage(res.data.message);
-  //     setTermsValue(res?.data[0].body);
-  //   });
-  // }, []);
+  useEffect(() => {
+    Load();
+    BasicAxios.get("admin/about_us").then((res) => {
+      RemoveLoader()
+      setSuccessMessage(res.data.message);
+      setTermsValue(res.data.data[0].text);
+    });
+  }, []);
 
   const modules = {
     toolbar: options
   }
   
-  // function recordTerms(){
-  //   setErrorMessage("");
+  function recordTerms(){
+    setErrorMessage("");
 
-  //   const payload = {
-  //       body: termsValue
-  //   }
+    const payload = {
+        website_text: termsValue
+    }
 
     
-  //   Load()
-  //   BasicAxios.post("admin/terms/store", payload)
-  //     .then((res) => {
-  //       RemoveLoader()
-  //       setSuccessMessage('Updated successfully!');
-  //       setTimeout(() => {
-  //         setSuccessMessage("");
-  //       }, 3000);
-  //     })
-  //     .catch((err) => {
-  //       RemoveLoader()
-  //       setErrorMessage(err.response.data.errors);
-  //     });
-  // }
+    Load()
+    BasicAxios.patch("admin/update/website_assets/2", payload)
+      .then((res) => {
+        RemoveLoader()
+        setSuccessMessage('Updated successfully!');
+        setTimeout(() => {
+          setSuccessMessage("");
+        }, 3000);
+      })
+      .catch((err) => {
+        RemoveLoader()
+        setErrorMessage(err.response.data.errors);
+      });
+  }
 
   return (
     <div className="px-4 sm:px-6 lg:px-8 flex flex-col gap-[30px]">
