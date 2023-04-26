@@ -15,12 +15,14 @@ function CategoryEdit() {
   const catId = useRef()
 
   useEffect(() => {
-    console.log(params.id);
     Load()
     BasicAxios.get("admin/category/" + params.id).then((res) => {
       setCurCat(res.data.data)
       catName.current.value = res.data.data.name
-      console.log(res.data.data);
+      if(res.data.data.parent){
+        catSearch.current.value = res.data.data.parent.name
+        catId.current.value = res.data.data.parent.id
+      }
       RemoveLoader()
     });
   }, []);
@@ -50,11 +52,10 @@ function CategoryEdit() {
 
   function saveCategory(){
     Load()
-    
-    let id = catId.current.value == '' ? null : catId.current.value
 
+    let parent_id = catId.current.value
     if(catName.current.value.length != 0){
-      BasicAxios.patch('admin/category/update/'+params.id, {name: catName.current.value, id})
+      BasicAxios.patch('admin/category/update/'+params.id, {name: catName.current.value, parent_id})
       .then((res) => {
         RemoveLoader()
         console.log(res);
@@ -106,9 +107,10 @@ function CategoryEdit() {
               >
                 {
                   categories.length > 0 && (
-                    categories.map(cat => {
+                    categories.map((cat, index) => {
                       return (
                         <p 
+                          key={index}
                           className='text-[14px] py-3 px-2 cursor-pointer transition-[background] hover:bg-gray-400 break-words'
                           onClick={()=>setCategory(cat)}
                         >
