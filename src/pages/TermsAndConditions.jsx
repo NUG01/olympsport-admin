@@ -4,6 +4,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import BasicAxios from "../helpers/axios/BasicAxios";
 import { Load, RemoveLoader } from "../hooks/Loader";
+import { data } from 'autoprefixer';
 
 export default function TermsAndConditions() {
   const [errorMessage, setErrorMessage] = useState([]);
@@ -23,9 +24,9 @@ export default function TermsAndConditions() {
   useEffect(() => {
     Load()
     BasicAxios.get("admin/terms_and_conditions").then((res) => {
-      RemoveLoader()
-      // setSuccessMessage(res.data.message);
-      // setTermsValue(res?.data[0].body);
+      RemoveLoader();
+      setTermsValue(res.data.data[0].text);
+      setSuccessMessage(res.data.message);
       console.log(res);
     });
   }, []);
@@ -34,27 +35,26 @@ export default function TermsAndConditions() {
     toolbar: options
   }
   
-  // function recordTerms(){
-  //   setErrorMessage("");
+  function recordTerms(){
+    setErrorMessage("");
 
-  //   const payload = {
-  //       text: termsValue
-  //   }
+    const payload = {
+      website_text: termsValue
+    }
     
-  //   Load()
-  //   BasicAxios.post("admin/update/website_assets/1", payload)
-  //     .then((res) => {
-  //       RemoveLoader()
-  //       setSuccessMessage('Updated successfully!');
-  //       setTimeout(() => {
-  //         setSuccessMessage("");
-  //       }, 3000);
-  //     })
-  //     .catch((err) => {
-  //       RemoveLoader()
-  //       setErrorMessage(err.response.data.errors);
-  //     });
-  // }
+    Load()
+    BasicAxios.patch("admin/update/website_assets/1", payload)
+      .then((res) => {
+        RemoveLoader();
+        setSuccessMessage('Updated successfully!');
+        setTimeout(() => {
+          setSuccessMessage("");
+        }, 3000);
+      })
+      .catch((err) => {
+        RemoveLoader()
+      });
+  }
 
   return (
     <div className="px-4 sm:px-6 lg:px-8 flex flex-col gap-[30px]">
