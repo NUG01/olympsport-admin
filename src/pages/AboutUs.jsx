@@ -38,12 +38,12 @@ export default function AboutUs() {
   //   setErrorMessage("");
 
   //   const payload = {
-  //       body: termsValue
+  //       text: termsValue
   //   }
 
     
   //   Load()
-  //   BasicAxios.post("admin/terms/store", payload)
+  //   BasicAxios.post("admin/update/website_assets/1", payload)
   //     .then((res) => {
   //       RemoveLoader()
   //       setSuccessMessage('Updated successfully!');
