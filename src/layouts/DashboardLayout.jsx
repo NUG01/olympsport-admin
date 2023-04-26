@@ -1,5 +1,5 @@
 import checkAuth from "../guards/checkAuth";
-import {NavLink} from 'react-router-dom';
+import { NavLink, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { globalActions } from "../store/index.js";
 import BasicAxios from "../helpers/axios/BasicAxios.js";
@@ -17,21 +17,29 @@ import {
   InformationCircleIcon,
   DocumentIcon,
 } from "@heroicons/react/24/outline";
-import {
-  ChevronDownIcon,
-} from "@heroicons/react/20/solid";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
 const navigation = [
-  { name: 'Dashboard', href: '/dashboard', icon: HomeIcon},
-  { name: 'Users', href: '/dashboard/users', icon: UsersIcon },
-  { name: 'Categories', href: '/dashboard/categories', icon: Squares2X2Icon },
-  { name: 'Brands', href: '/dashboard/brands', icon: TagIcon },
-  { name: 'Products', href: '/dashboard/products', icon: InboxStackIcon },
-  { name: 'Terms&Conditions', href: '/dashboard/terms-and-conditions', icon: DocumentIcon },
-  { name: 'About us', href: '/dashboard/about-us', icon: InformationCircleIcon },
+  { name: "Dashboard", href: "/dashboard", icon: HomeIcon },
+  { name: "Users", href: "/dashboard/users", icon: UsersIcon },
+  { name: "Categories", href: "/dashboard/categories", icon: Squares2X2Icon },
+  { name: "Brands", href: "/dashboard/brands", icon: TagIcon },
+  { name: "Products", href: "/dashboard/products", icon: InboxStackIcon },
+  {
+    name: "Terms&Conditions",
+    href: "/dashboard/terms-and-conditions",
+    icon: DocumentIcon,
+  },
+  {
+    name: "About us",
+    href: "/dashboard/about-us",
+    icon: InformationCircleIcon,
+  },
 ];
 
-const userNavigation = [{ name: "Your profile", href: "/dashboard/admin/profile" }];
+const userNavigation = [
+  { name: "Your profile", href: "/dashboard/admin/profile" },
+];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -130,11 +138,12 @@ function Dashboard() {
                               <li key={item.name}>
                                 <NavLink
                                   to={item.href}
-                                  className={({ isActive 
-                                  }) =>
-                                  isActive ? "bg-gray-800 text-white group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold" : "text-gray-400 hover:text-white hover:bg-gray-800 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold" 
-                                }
-                                end
+                                  className={({ isActive }) =>
+                                    isActive
+                                      ? "bg-gray-800 text-white group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+                                      : "text-gray-400 hover:text-white hover:bg-gray-800 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+                                  }
+                                  end
                                 >
                                   <item.icon
                                     className="h-6 w-6 shrink-0"
@@ -172,12 +181,14 @@ function Dashboard() {
                   <ul role="list" className="-mx-2 space-y-1">
                     {navigation.map((item) => (
                       <li key={item.name}>
-                       <NavLink
+                        <NavLink
                           to={item.href}
                           className={({ isActive }) =>
-                          isActive ? "bg-gray-800 text-white group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold" : "text-gray-400 hover:text-white hover:bg-gray-800 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold" 
-                        }
-                        end
+                            isActive
+                              ? "bg-gray-800 text-white group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+                              : "text-gray-400 hover:text-white hover:bg-gray-800 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold"
+                          }
+                          end
                         >
                           <item.icon
                             className="h-6 w-6 shrink-0"
@@ -213,7 +224,6 @@ function Dashboard() {
 
             <div className="flex flex-1 gap-x-4  justify-end lg:gap-x-6">
               <div className="flex items-center gap-x-4 lg:gap-x-6">
-
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative justify-self-end">
                   <Menu.Button className="-m-1.5 flex items-center p-1.5">
@@ -241,21 +251,16 @@ function Dashboard() {
                     leaveTo="transform opacity-0 scale-95"
                   >
                     <Menu.Items className="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
-                      {userNavigation.map((item) => (
-                        <Menu.Item key={item.name}>
-                          {({ active }) => (
-                            <a
-                              href={item.href}
-                              className={classNames(
-                                active ? "bg-gray-50" : "",
-                                "block px-3 py-1 text-sm leading-6 text-gray-900"
-                              )}
-                            >
-                              {item.name}
-                            </a>
-                          )}
-                        </Menu.Item>
-                      ))}
+                      <Menu.Item>
+                        <Link
+                          to="/dashboard/admin/profile"
+                          className={
+                            "block px-3 py-1 text-sm leading-6 text-gray-900 hover:bg-gray-50 w-full text-start"
+                          }
+                        >
+                          Profile
+                        </Link>
+                      </Menu.Item>
                       <Menu.Item>
                         <button
                           onClick={logoutHandler}

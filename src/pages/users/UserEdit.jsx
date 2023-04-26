@@ -1,4 +1,4 @@
-import { React, useState } from "react";
+import { useEffect, useState } from "react";
 import checkAuth from "../../guards/checkAuth";
 import UserSaveModal from "../../components/users/UserSaveModal";
 import UserDeleteModal from "../../components/users/UserDeleteModal";
@@ -7,6 +7,7 @@ import UserInput from "./Inputs/UserInput";
 import { useSelector } from "react-redux";
 import BasicAxios from "../../helpers/axios/BasicAxios";
 import CityInput from "./Inputs/CityInput";
+import { useParams } from "react-router-dom";
 
 const tiers = [
   {
@@ -57,8 +58,14 @@ export default function UserEdit() {
   const [saveModal, setSaveModal] = useState(false);
   const [successMessage, setSuccessMessage] = useState(false);
   const [errorMessage, setErrorMessage] = useState(false);
+  const params = useParams();
+  const [user, setUser] = useState([]);
 
-  const [user, setUser] = useState(useSelector((state) => state.user));
+  useEffect(() => {
+    BasicAxios.get("admin/users/" + params.id).then((res) => {
+      setUser(res.data);
+    });
+  }, []);
 
   function closeDeleteModal() {
     setModal(false);
@@ -86,6 +93,8 @@ export default function UserEdit() {
       }, 3600);
     }
   }
+
+  if (!user) return;
   return (
     <>
       {modal && <UserDeleteModal close={closeDeleteModal} />}
@@ -95,7 +104,7 @@ export default function UserEdit() {
       )}
       <form onSubmit={submitHandler}>
         <div className="space-y-12">
-          <h2 className="text-base font-semibold leading-7 text-gray-900">
+          <h2 className="text-base font-semibold leading-7 text-black-900">
             User profile
           </h2>
           <p className="mt-1 text-sm leading-6 text-gray-600">
