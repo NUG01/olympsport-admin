@@ -112,14 +112,14 @@ export default function AdminProfile() {
                 </AdminUpdateInput>
               </div>
 
-              <div className="mt-8 flex">
+              <div className="mt-8 flex flex-col">
                 <button
                   type="submit"
                   className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-500 shadow-sm ring-1 ring-inset ring-slate-300 hover:bg-slate-50"
                 >
                   Save
                 </button>
-                <div className="flex items-center justify-center w-full h-full">
+                <div className="flex items-center justify-center w-full h-full mt-[3px]">
                   {credentialsError && (
                     <p className="text-[16px] font-[600] text-red-600 ">
                       Something went wrong!
