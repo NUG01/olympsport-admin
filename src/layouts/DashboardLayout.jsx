@@ -3,8 +3,8 @@ import { NavLink, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { globalActions } from "../store/index.js";
 import BasicAxios from "../helpers/axios/BasicAxios.js";
-import { Fragment, useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Fragment, useState, useRef } from "react";
+import { Outlet, useNavigate, useLocation } from "react-router-dom";
 import { Dialog, Menu, Transition } from "@headlessui/react";
 import {
   Bars3Icon,
@@ -16,6 +16,7 @@ import {
   Squares2X2Icon,
   InformationCircleIcon,
   DocumentIcon,
+  MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
 
@@ -47,9 +48,22 @@ function classNames(...classes) {
 
 function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const searchValue = useRef();
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { pathname } = useLocation();
+
+  function searchHandler(ev) {
+    ev.preventDefault();
+    dispatch(
+      globalActions.setSearchItem({
+        pathname: pathname,
+        term: searchValue.current.value,
+      })
+    );
+  }
+
   function logoutHandler() {
     BasicAxios.post("logout").then((res) => {
       dispatch(globalActions.setUser(null));
@@ -222,7 +236,29 @@ function Dashboard() {
               aria-hidden="true"
             />
 
-            <div className="flex flex-1 gap-x-4  justify-end lg:gap-x-6">
+            <div className="flex flex-1 gap-x-4 justify-end lg:gap-x-6">
+              {(pathname == "/dashboard/users" ||
+                pathname == "/dashboard/categories" ||
+                pathname == "/dashboard/brands" ||
+                pathname == "/dashboard/products") && (
+                <form onSubmit={searchHandler} className="relative flex flex-1">
+                  <label htmlFor="search-field" className="sr-only">
+                    Search
+                  </label>
+                  <MagnifyingGlassIcon
+                    className="pointer-events-none absolute inset-y-0 left-0 h-full w-5 text-gray-400"
+                    aria-hidden="true"
+                  />
+                  <input
+                    id="search-field"
+                    className="block h-full py-[10px] w-full border-0 py-0 pl-8 pr-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm"
+                    placeholder="Search..."
+                    type="search"
+                    name="search"
+                    ref={searchValue}
+                  />
+                </form>
+              )}
               <div className="flex items-center gap-x-4 lg:gap-x-6">
                 {/* Profile dropdown */}
                 <Menu as="div" className="relative justify-self-end">

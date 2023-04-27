@@ -3,13 +3,43 @@ import { Link, useLocation } from "react-router-dom";
 import CustomSwitch from "./CustomSwitch";
 import BasicAxios from "../helpers/axios/BasicAxios";
 import AlertModal from "../components/AlertModal";
+import { useSelector } from "react-redux";
+
+function filterByValue(array, string) {
+  const result = array.filter((obj) => {
+    let includes = false;
+    const searchTermsArr = string.split(" ");
+
+    let values = Object.values(obj);
+
+    values.forEach((item) => {
+      searchTermsArr.forEach((term) => {
+        if (
+          item &&
+          item.toString().toLowerCase().includes(term.toString().toLowerCase())
+        ) {
+          includes = true;
+          return;
+        }
+      });
+    });
+
+    return includes;
+  });
+
+  return result;
+}
 
 export default function Categories(props) {
   const [modalId, setModalId] = useState(null);
   const [modalBackdrop, setModalBackdrop] = useState(false);
   const { pathname } = useLocation();
+  const searchItemValue = useSelector((state) => state.searchItem);
 
-  const data = props.data;
+  let data = props.data;
+  if (searchItemValue && searchItemValue.pathname == pathname) {
+    data = filterByValue(data, searchItemValue.term);
+  }
   const columns = props.columns;
   let parts = pathname.split("/");
   let url = parts[parts.length - 1];
@@ -37,7 +67,7 @@ export default function Categories(props) {
         </div>
         <div className="mt-4 sm:ml-16 sm:mt-0 sm:flex-none">
           <Link
-            to={'add'} 
+            to={"add"}
             className="block rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Add
@@ -76,7 +106,13 @@ export default function Categories(props) {
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
                   {data.map((item, index) => (
-                    <tr key={props.type === 'categories' ? item.name+'-'+item.id+'-'+index : item.id+'-'+index}>
+                    <tr
+                      key={
+                        props.type === "categories"
+                          ? item.name + "-" + item.id + "-" + index
+                          : item.id + "-" + index
+                      }
+                    >
                       {columns.map((key, i) => (
                         <td
                           key={i}

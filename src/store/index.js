@@ -3,6 +3,7 @@ import { createSlice, configureStore } from "@reduxjs/toolkit";
 const initialState = {
   user: null,
   isLoggedIn: false,
+  searchItem: null,
 };
 
 const globalSlice = createSlice({
@@ -14,6 +15,9 @@ const globalSlice = createSlice({
     },
     setIsLoggedIn(state, action) {
       state.isLoggedIn = action.payload;
+    },
+    setSearchItem(state, action) {
+      state.searchItem = action.payload;
     },
   },
 });
