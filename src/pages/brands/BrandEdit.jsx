@@ -70,6 +70,9 @@ export default function Brands() {
     if (searchedCategory) form.append("category_id", searchedCategory.id);
     form.append("_method", "PATCH");
     BasicAxios.post("admin/brand/update/" + params.id, form).then((res) => {
+      if (searchedCategory) {
+        setCategories((oldArray) => [searchedCategory, ...oldArray]);
+      }
       setSearchActivated(false);
       setSearchedCategory([]);
       setSuccessMessage(true);
@@ -81,7 +84,11 @@ export default function Brands() {
 
   function deleteHandler(ev, id) {
     ev.preventDefault();
-    BasicAxios.delete("admin/brand/remove_category/" + params.id + "/" + id);
+    BasicAxios.delete(
+      "admin/brand/remove_category/" + params.id + "/" + id
+    ).then(() => {
+      setCategories(categories.filter((x) => x.id != id));
+    });
   }
 
   return (
