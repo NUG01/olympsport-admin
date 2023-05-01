@@ -1,195 +1,188 @@
-import {React, useState, Fragment} from 'react';
-import checkAuth from '../../guards/checkAuth';
-import { Listbox, Transition } from '@headlessui/react'
-import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
+import { useEffect, useState, Fragment } from "react";
+import checkAuth from "../../guards/checkAuth";
+import { Listbox, Transition } from "@headlessui/react";
+import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
+import { useParams } from "react-router-dom";
+import BasicAxios from "../../helpers/axios/BasicAxios";
 
 const brands = [
-    { id: 1, name: 'Wade Cooper' },
-    { id: 2, name: 'Arlene Mccoy' },
-    { id: 3, name: 'Devon Webb' },
-    { id: 4, name: 'Tom Cook' },
-    { id: 5, name: 'Tanya Fox' },
-    { id: 6, name: 'Hellen Schmidt' },
-    { id: 7, name: 'Caroline Schultz' },
-    { id: 8, name: 'Mason Heaney' },
-    { id: 9, name: 'Claudie Smitham' },
-    { id: 10, name: 'Emil Schaefer' },
-  ];
-  const categories = [
-    {
-      id: 1,
-      slug: 'category_1',
-      name: 'Category 1',
-    
-    },
-    {
-      id: 2,
-      slug: 'category_2',
-      name: 'Category 2',
-    
-    },
-    {
-      id: 3,
+  { id: 1, name: "Wade Cooper" },
+  { id: 2, name: "Arlene Mccoy" },
+  { id: 3, name: "Devon Webb" },
+  { id: 4, name: "Tom Cook" },
+  { id: 5, name: "Tanya Fox" },
+  { id: 6, name: "Hellen Schmidt" },
+  { id: 7, name: "Caroline Schultz" },
+  { id: 8, name: "Mason Heaney" },
+  { id: 9, name: "Claudie Smitham" },
+  { id: 10, name: "Emil Schaefer" },
+];
 
-      slug: 'category_3',
-      name: 'Category 3',
-    }
-     ,
-    {
-      id: 4,
-
-      slug: 'category_4',
-      name: 'Category 4',
-    }
-     ,
-    {
-      id: 5,
-
-      slug: 'category_5',
-      name: 'Category 5',
-    }
-     ,
-    {
-      id: 6,
-      slug: 'category_6',
-      name: 'Category 6',
-  },
-
-  ]
-  
-  function classNames(...classes) {
-    return classes.filter(Boolean).join(' ');
-  }
+function classNames(...classes) {
+  return classes.filter(Boolean).join(" ");
+}
 
 export default function Brands() {
-    const [selected, setSelected] = useState(brands[3]);
-    
-    return (
-      <>
-        <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-          <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-            <h2 className="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-              Editing brandname
-            </h2>
-          </div>
-  
-          <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-            <form className="space-y-6" action="#" method="POST">
-              <div>
-                <label htmlFor="brand_name" className="block text-sm font-medium leading-6 text-gray-900">
-                  Brand Name
-                </label>
-                <div className="mt-2">
-                  <input
-                    id="brand_name"
-                    name="brand_name"
-                    type="brand_name"
-                    autoComplete="brand_name"
-                    required
-                    className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  />
-                </div>
-              </div>
-  
-              <div>
-                <div className="flex items-center justify-between">
-                  <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
-                    Category
-                  </label>
-                 
-                </div>
-                <div className="mt-2">
-                <Listbox value={selected} onChange={setSelected}>
-                    {({ open }) => (
-                        <>
-                        <div className="relative mt-2">
-                            <Listbox.Button className="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6">
-                            <span className="block truncate">{selected.name}</span>
-                            <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                                <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-                            </span>
-                            </Listbox.Button>
+  const [selected, setSelected] = useState(brands[3]);
+  const [brand, setBrand] = useState(null);
+  const [categories, setCategories] = useState(null);
+  const [searchedCategory, setSearchedCategory] = useState([]);
+  const [searchActivated, setSearchActivated] = useState(false);
 
-                            <Transition
-                            show={open}
-                            as={Fragment}
-                            leave="transition ease-in duration-100"
-                            leaveFrom="opacity-100"
-                            leaveTo="opacity-0"
-                            >
-                            <Listbox.Options className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                                {brands.map((brand) => (
-                                <Listbox.Option
-                                    key={brand.id}
-                                    className={({ active }) =>
-                                    classNames(
-                                        active ? 'bg-indigo-600 text-white' : 'text-gray-900',
-                                        'relative cursor-default select-none py-2 pl-8 pr-4'
-                                    )
-                                    }
-                                    value={brand}
-                                >
-                                    {({ selected, active }) => (
-                                    <>
-                                        <span className={classNames(selected ? 'font-semibold' : 'font-normal', 'block truncate')}>
-                                        {brand.name}
-                                        </span>
+  const params = useParams();
 
-                                        {selected ? (
-                                        <span
-                                            className={classNames(
-                                            active ? 'text-white' : 'text-indigo-600',
-                                            'absolute inset-y-0 left-0 flex items-center pl-1.5'
-                                            )}
-                                        >
-                                            <CheckIcon className="h-5 w-5" aria-hidden="true" />
-                                        </span>
-                                        ) : null}
-                                    </>
-                                    )}
-                                </Listbox.Option>
-                                ))}
-                            </Listbox.Options>
-                            </Transition>
-                        </div>
-                        </>
-                    )}
-                    </Listbox>
-                </div>
+  useEffect(() => {
+    BasicAxios.get("admin/brand/" + params.id).then((res) => {
+      setBrand(res.data.data);
+      setCategories(res.data.data.categories);
+    });
+  }, []);
+  if (!brand) return;
+
+  function handleCategorySearch() {
+    BasicAxios.post("admin/brand/category_list/" + params.id, {
+      name: searchedCategory.name,
+    }).then((res) => {
+      setCategories(res.data);
+      setSearchActivated(true);
+    });
+  }
+
+  function submitHandler(ev) {
+    ev.preventDefault();
+    const form = new FormData();
+    form.append("name", brand.name);
+    if (searchedCategory) form.append("category_id", searchedCategory.id);
+    form.append("_method", "PATCH");
+    BasicAxios.post("admin/brand/update/" + params.id, form).then((res) => {
+      setSearchedCategory([]);
+      setSearchActivated(false);
+      setCategories(null);
+    });
+  }
+
+  return (
+    <>
+      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+          <h2 className="text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+            Editing brandname
+          </h2>
+        </div>
+
+        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+          <form
+            onSubmit={submitHandler}
+            className="space-y-6"
+            action="#"
+            method="POST"
+          >
+            <div>
+              <label
+                htmlFor="brand_name"
+                className="block text-sm font-medium leading-6 text-gray-900"
+              >
+                Brand Name
+              </label>
+              <div className="mt-2">
+                <input
+                  id="brand_name"
+                  name="brand_name"
+                  type="text"
+                  value={brand.name}
+                  onChange={(ev) =>
+                    setBrand({ ...brand, name: ev.target.value })
+                  }
+                  className="block w-full px-[5px] rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
               </div>
-  
-              <div>
-                <button
-                  type="submit"
-                  className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            </div>
+
+            <div className="relative">
+              <div className="flex items-center justify-between">
+                <label
+                  htmlFor="category"
+                  className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                  Update
-                </button>
+                  Category
+                </label>
               </div>
-            </form>
+              <div className="mt-2">
+                <input
+                  id="category"
+                  name="category"
+                  type="text"
+                  value={searchedCategory?.name}
+                  onChange={(ev) =>
+                    setSearchedCategory({
+                      ...searchedCategory,
+                      name: ev.target.value,
+                    })
+                  }
+                  className="block w-full px-[5px] rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                />
+              </div>
+              <div
+                className="cursor-pointer inline-block bg-gray-200 rounded-[7px] mt-[7px] hover:bg-gray-300"
+                onClick={handleCategorySearch}
+              >
+                <p className="px-[10px] py-[6px]">Search</p>
+              </div>
+              {searchActivated && categories.length > 0 && (
+                <div className="absolute right-0 top-[70%] w-[75%] border-[2px] rounded-[5px] max-h-[200px] overflow-y-scroll bg-gray-100">
+                  {categories.map((cat) => {
+                    return (
+                      <p
+                        key={cat.id}
+                        onClick={() => {
+                          setSearchActivated(false);
+                          setSearchedCategory(cat);
+                        }}
+                        className="block hover:bg-gray-200 cursor-pointer px-[3px] overflow-x-hidden"
+                      >
+                        {`${cat.name}  (${cat.slug})`}
+                      </p>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
 
-            <div className="sm:mx-auto sm:w-full mt-10 mb-10 sm:max-w-sm">
+            <div>
+              <button
+                type="submit"
+                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              >
+                Update
+              </button>
+            </div>
+          </form>
+
+          <div className="sm:mx-auto sm:w-full mt-10 mb-10 sm:max-w-sm">
             <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
               Categories
             </h2>
             <p>This is the list of categories that has this specific brand.</p>
           </div>
-            <ul role="list" className="divide-y divide-gray-100">
-              {categories.map((category) => (
+          <ul role="list" className="divide-y divide-gray-100">
+            {categories &&
+              categories.map((category) => (
                 <li key={category.id} className="flex gap-x-4 py-5">
                   <div className="min-w-0">
-                    <p className="text-sm font-semibold leading-6 text-gray-900">{category.name}</p>
+                    <p className="text-sm font-semibold leading-6 text-gray-900">
+                      {category.name}
+                    </p>
                   </div>
-                    <form action='#' method='post' className='ml-60'>
-                        <button className="text-red-600 hover:text-red-900">
-                          Delete<span className="sr-only">, {category.slug}</span>
-                        </button>
-                        </form>
+                  <form action="#" method="post" className="ml-60">
+                    <button className="text-red-600 hover:text-red-900">
+                      Delete<span className="sr-only">, {category.slug}</span>
+                    </button>
+                  </form>
                 </li>
               ))}
-            </ul>
-          </div>
+          </ul>
         </div>
-      </>
-    )
-  }
+      </div>
+    </>
+  );
+}

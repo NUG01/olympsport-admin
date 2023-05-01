@@ -35,8 +35,6 @@ export default function Categories(props) {
   const [modalBackdrop, setModalBackdrop] = useState(false);
   const { pathname } = useLocation();
   const searchItemValue = useSelector((state) => state.searchItem);
-  console.log(props.data);
-  return;
 
   let data = props.data;
   if (searchItemValue && searchItemValue.pathname == pathname) {

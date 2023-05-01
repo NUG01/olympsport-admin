@@ -17,5 +17,5 @@ export default function Brands() {
   }, []);
   if (!loaded) return;
 
-  return <BasicTable type="Brands" data={brands} columns={columnNames} />;
+  return <BasicTable type="brands" data={brands} columns={columnNames} />;
 }
