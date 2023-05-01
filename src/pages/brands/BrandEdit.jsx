@@ -26,8 +26,11 @@ export default function Brands() {
   const [selected, setSelected] = useState(brands[3]);
   const [brand, setBrand] = useState(null);
   const [categories, setCategories] = useState(null);
+  const [searchCategories, setSearchCategories] = useState([]);
   const [searchedCategory, setSearchedCategory] = useState([]);
   const [searchActivated, setSearchActivated] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(false);
+  const [successMessage, setSuccessMessage] = useState(false);
 
   const params = useParams();
 
@@ -40,11 +43,23 @@ export default function Brands() {
   if (!brand) return;
 
   function handleCategorySearch() {
+    if (!searchedCategory.name) {
+      setErrorMessage(true);
+      setTimeout(() => {
+        setErrorMessage(false);
+      }, 3600);
+      return;
+    }
     BasicAxios.post("admin/brand/category_list/" + params.id, {
       name: searchedCategory.name,
     }).then((res) => {
-      setCategories(res.data);
+      setSearchedCategory(res.data);
       setSearchActivated(true);
+      if (res.data.length == 0) {
+        setTimeout(() => {
+          setSearchActivated(false);
+        }, 3600);
+      }
     });
   }
 
@@ -55,10 +70,18 @@ export default function Brands() {
     if (searchedCategory) form.append("category_id", searchedCategory.id);
     form.append("_method", "PATCH");
     BasicAxios.post("admin/brand/update/" + params.id, form).then((res) => {
-      setSearchedCategory([]);
       setSearchActivated(false);
-      setCategories(null);
+      setSearchedCategory([]);
+      setSuccessMessage(true);
+      setTimeout(() => {
+        setSuccessMessage(false);
+      }, 3600);
     });
+  }
+
+  function deleteHandler(ev, id) {
+    ev.preventDefault();
+    BasicAxios.delete("admin/brand/remove_category/" + params.id + "/" + id);
   }
 
   return (
@@ -112,7 +135,7 @@ export default function Brands() {
                   id="category"
                   name="category"
                   type="text"
-                  value={searchedCategory?.name}
+                  value={searchedCategory?.name || ""}
                   onChange={(ev) =>
                     setSearchedCategory({
                       ...searchedCategory,
@@ -128,9 +151,9 @@ export default function Brands() {
               >
                 <p className="px-[10px] py-[6px]">Search</p>
               </div>
-              {searchActivated && categories.length > 0 && (
+              {searchActivated && searchedCategory.length > 0 && (
                 <div className="absolute right-0 top-[70%] w-[75%] border-[2px] rounded-[5px] max-h-[200px] overflow-y-scroll bg-gray-100">
-                  {categories.map((cat) => {
+                  {searchedCategory.map((cat) => {
                     return (
                       <p
                         key={cat.id}
@@ -146,9 +169,18 @@ export default function Brands() {
                   })}
                 </div>
               )}
+              {searchActivated && searchedCategory.length == 0 && (
+                <div>No categories found with this name!</div>
+              )}
+              {errorMessage && <div>Can't find an empty category!</div>}
             </div>
 
             <div>
+              {successMessage && (
+                <div className="text-green-400 text-center text-[18px] mb-[10px]">
+                  Successfully updated!
+                </div>
+              )}
               <button
                 type="submit"
                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
@@ -167,13 +199,19 @@ export default function Brands() {
           <ul role="list" className="divide-y divide-gray-100">
             {categories &&
               categories.map((category) => (
-                <li key={category.id} className="flex gap-x-4 py-5">
+                <li
+                  key={category.id}
+                  className="flex items-center justify-between gap-x-4 py-5"
+                >
                   <div className="min-w-0">
                     <p className="text-sm font-semibold leading-6 text-gray-900">
                       {category.name}
                     </p>
                   </div>
-                  <form action="#" method="post" className="ml-60">
+                  <form
+                    onSubmit={(ev) => deleteHandler(ev, category.id)}
+                    className="ml-60"
+                  >
                     <button className="text-red-600 hover:text-red-900">
                       Delete<span className="sr-only">, {category.slug}</span>
                     </button>
