@@ -9,7 +9,7 @@ export default function Brands() {
   const [columnNames, setColumnNames] = useState([]);
   const [loaded, setLoaded] = useState(false);
   useEffect(() => {
-    BasicAxios.get("brands").then((res) => {
+    BasicAxios.get("admin/brands").then((res) => {
       setColumnNames(Object.keys(res.data.data[0]));
       setBrands(res.data.data);
       setLoaded(true);

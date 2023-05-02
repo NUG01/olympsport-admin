@@ -100,102 +100,100 @@ export default function Brands() {
           </h2>
         </div>
 
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form
-            onSubmit={submitHandler}
-            className="space-y-6"
-            action="#"
-            method="POST"
-          >
-            <div>
-              <label
-                htmlFor="brand_name"
-                className="block text-sm font-medium leading-6 text-gray-900"
-              >
-                Brand Name
-              </label>
-              <div className="mt-2">
-                <input
-                  id="brand_name"
-                  name="brand_name"
-                  type="text"
-                  value={brand.name}
-                  onChange={(ev) =>
-                    setBrand({ ...brand, name: ev.target.value })
-                  }
-                  className="block w-full px-[5px] rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-            </div>
-
-            <div className="relative">
-              <div className="flex items-center justify-between">
+        {/* <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm"> */}
+        <div className="mt-10 sm:mx-auto sm:w-[100%]">
+          <div className="flex items-center justify-center sm:w-[100%]">
+            <form className="sm:w-[60%] space-y-6" onSubmit={submitHandler}>
+              <div>
                 <label
-                  htmlFor="category"
+                  htmlFor="brand_name"
                   className="block text-sm font-medium leading-6 text-gray-900"
                 >
-                  Category
+                  Brand Name
                 </label>
-              </div>
-              <div className="mt-2">
-                <input
-                  id="category"
-                  name="category"
-                  type="text"
-                  value={searchedCategory?.name || ""}
-                  onChange={(ev) =>
-                    setSearchedCategory({
-                      ...searchedCategory,
-                      name: ev.target.value,
-                    })
-                  }
-                  className="block w-full px-[5px] rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                />
-              </div>
-              <div
-                className="cursor-pointer inline-block bg-gray-200 rounded-[7px] mt-[7px] hover:bg-gray-300"
-                onClick={handleCategorySearch}
-              >
-                <p className="px-[10px] py-[6px]">Search</p>
-              </div>
-              {searchActivated && searchedCategory.length > 0 && (
-                <div className="absolute right-0 top-[70%] w-[75%] border-[2px] rounded-[5px] max-h-[200px] overflow-y-scroll bg-gray-100">
-                  {searchedCategory.map((cat) => {
-                    return (
-                      <p
-                        key={cat.id}
-                        onClick={() => {
-                          setSearchActivated(false);
-                          setSearchedCategory(cat);
-                        }}
-                        className="block hover:bg-gray-200 cursor-pointer px-[3px] overflow-x-hidden"
-                      >
-                        {`${cat.name}  (${cat.slug})`}
-                      </p>
-                    );
-                  })}
+                <div className="mt-2">
+                  <input
+                    id="brand_name"
+                    name="brand_name"
+                    type="text"
+                    value={brand.name}
+                    onChange={(ev) =>
+                      setBrand({ ...brand, name: ev.target.value })
+                    }
+                    className="block w-full px-[5px] rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
                 </div>
-              )}
-              {searchActivated && searchedCategory.length == 0 && (
-                <div>No categories found with this name!</div>
-              )}
-              {errorMessage && <div>Can't find an empty category!</div>}
-            </div>
+              </div>
 
-            <div>
-              {successMessage && (
-                <div className="text-green-400 text-center text-[18px] mb-[10px]">
-                  Successfully updated!
+              <div className="relative">
+                <div className="flex items-center justify-between">
+                  <label
+                    htmlFor="category"
+                    className="block text-sm font-medium leading-6 text-gray-900"
+                  >
+                    Category
+                  </label>
                 </div>
-              )}
-              <button
-                type="submit"
-                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Update
-              </button>
-            </div>
-          </form>
+                <div className="mt-2">
+                  <input
+                    id="category"
+                    name="category"
+                    type="text"
+                    value={searchedCategory?.name || ""}
+                    onChange={(ev) =>
+                      setSearchedCategory({
+                        ...searchedCategory,
+                        name: ev.target.value,
+                      })
+                    }
+                    className="block w-full px-[5px] rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  />
+                </div>
+                <div
+                  className="cursor-pointer inline-block bg-gray-200 rounded-[7px] mt-[7px] hover:bg-gray-300"
+                  onClick={handleCategorySearch}
+                >
+                  <p className="px-[10px] py-[6px]">Search</p>
+                </div>
+                {searchActivated && searchedCategory.length > 0 && (
+                  <div className="absolute right-0 top-[70%] w-[75%] border-[2px] rounded-[5px] max-h-[200px] overflow-y-scroll bg-gray-100">
+                    {searchedCategory.map((cat) => {
+                      return (
+                        <p
+                          key={cat.id}
+                          onClick={() => {
+                            setSearchActivated(false);
+                            setSearchedCategory(cat);
+                          }}
+                          className="block hover:bg-gray-200 cursor-pointer px-[3px] overflow-x-hidden"
+                        >
+                          {`${cat.name}  (${cat.slug})`}
+                        </p>
+                      );
+                    })}
+                  </div>
+                )}
+                {searchActivated && searchedCategory.length == 0 && (
+                  <div>No categories found with this name!</div>
+                )}
+                {errorMessage && <div>Can't find an empty category!</div>}
+              </div>
+
+              <div>
+                {successMessage && (
+                  <div className="text-green-400 text-center text-[18px] mb-[10px]">
+                    Successfully updated!
+                  </div>
+                )}
+                <button
+                  type="submit"
+                  className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                >
+                  Update
+                </button>
+              </div>
+            </form>
+          </div>
 
           <div className="sm:mx-auto sm:w-full mt-10 mb-10 sm:max-w-sm">
             <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
@@ -212,7 +210,7 @@ export default function Brands() {
                 >
                   <div className="min-w-0">
                     <p className="text-sm font-semibold leading-6 text-gray-900">
-                      {category.name}
+                      {category.name} {"(" + category.slug + ")"}
                     </p>
                   </div>
                   <form
