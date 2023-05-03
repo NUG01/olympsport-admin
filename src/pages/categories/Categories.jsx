@@ -4,26 +4,25 @@ import BasicTable from "../../components/BasicTable";
 import BasicAxios from "../../helpers/axios/BasicAxios";
 import { Load, RemoveLoader } from "../../hooks/Loader";
 
-
 export default function Categories() {
   const [categories, setCategories] = useState([]);
   const [columnNames, setColumnNames] = useState([]);
 
-  function orderCategories(data){
-    data.forEach(item => {
-      setCategories(categories => [...categories, item])
-      if(item.children && item.children.length > 0) orderCategories(item.children)
-    })
-    
-    RemoveLoader()
+  function orderCategories(data) {
+    data.forEach((item) => {
+      setCategories((categories) => [...categories, item]);
+      if (item.children && item.children.length > 0)
+        orderCategories(item.children);
+    });
+
+    RemoveLoader();
   }
 
   useEffect(() => {
-
-    Load()
+    Load();
 
     BasicAxios.get("admin/categories").then((res) => {
-      orderCategories(res.data.data)
+      orderCategories(res.data.data);
       setColumnNames(Object.keys(res.data.data[0]));
     });
   }, []);

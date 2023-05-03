@@ -47,9 +47,7 @@ function App() {
           }
           dispatch(globalActions.setUser(user.data));
           setAuthStatus(true);
-        } catch (error) {
-          console.log(error.message);
-        }
+        } catch (error) {}
       }
       setRendered(true);
     })();

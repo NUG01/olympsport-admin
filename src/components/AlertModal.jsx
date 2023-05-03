@@ -18,14 +18,16 @@ export default function Example(props) {
     if (props.type == "Categories") {
       BasicAxios.delete("admin/category/delete/" + props.item.slug).then(
         (res) => {
-          console.log(res);
+          props.deleteAction(
+            props.data.filter((x) => x.slug != props.item.slug)
+          );
         }
       );
     } else {
       let parts = pathname.split("/");
       let url = parts[parts.length - 1];
       BasicAxios.delete("admin/" + url + "/delete/" + props.id).then((res) => {
-        console.log(res);
+        props.deleteAction(props.data.filter((x) => x.id != id));
       });
     }
   }

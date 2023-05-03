@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import CustomSwitch from "./CustomSwitch";
 import BasicAxios from "../helpers/axios/BasicAxios";
@@ -40,6 +40,7 @@ export default function Categories(props) {
   if (searchItemValue && searchItemValue.pathname == pathname) {
     data = filterByValue(data, searchItemValue.term);
   }
+
   const columns = props.columns;
   let parts = pathname.split("/");
   let url = parts[parts.length - 1];
@@ -162,6 +163,8 @@ export default function Categories(props) {
                                 id={item.id}
                                 type={props.type}
                                 item={item}
+                                data={props.data}
+                                deleteAction={(value) => (data = value)}
                                 close={() => {
                                   setModalId(null);
                                   setModalBackdrop(false);
